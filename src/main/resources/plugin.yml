@@ -1,0 +1,4 @@
+name: OOFPortalCanceller
+version: '1.0.0'
+main: net.okocraft.oofportalcanceller.Main
+api-version: 1.19
