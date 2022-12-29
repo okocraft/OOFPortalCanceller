@@ -28,8 +28,9 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         World destination = getServer().getWorld(worldName.substring(0, worldName.length() - 7));
-        if (destination != null
-                && !destination.getWorldBorder().isInside(averageLocation(event.getBlocks()).multiply(8))) {
+        Location loc = averageLocation(event.getBlocks()).multiply(8);
+        loc.setWorld(destination);
+        if (destination != null && !destination.getWorldBorder().isInside(loc)) {
             event.setCancelled(true);
         }
     }
