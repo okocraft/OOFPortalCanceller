@@ -1,5 +1,5 @@
 name: OOFPortalCanceller
-version: '1.0.0'
+version: ${projectVersion}
 main: net.okocraft.oofportalcanceller.Main
-api-version: 1.19
+api-version: ${minecraftVersion}
 folia-supported: true

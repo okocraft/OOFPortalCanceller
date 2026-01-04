@@ -1,30 +1,25 @@
 plugins {
-    java
+    `java-library`
+    alias(libs.plugins.jcommon)
+    alias(libs.plugins.bundler)
 }
 
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
-
-group = "net.okocraft"
+group = "net.okocraft.oofportalcanceller"
 version = "1.0.0"
 
-repositories {
-    mavenCentral()
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+val apiVersion = "1.19"
+
+jcommon {
+    javaVersion = JavaVersion.VERSION_21
+
+    setupPaperRepository()
+
+    commonDependencies {
+        compileOnly(libs.paper.api)
+    }
 }
 
-dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT")
-
-    implementation("org.jetbrains:annotations:23.0.0")
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-}
-
-tasks.compileJava {
-    options.release.set(17)
-}
-
-tasks.test {
-    useJUnitPlatform()
+bundler {
+    copyToRootBuildDirectory("OOFPortalCanceller-${project.version}")
+    replacePluginVersionForPaper(project.version, apiVersion)
 }
