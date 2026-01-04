@@ -28,16 +28,16 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         World destination = getServer().getWorld(worldName.substring(0, worldName.length() - 7));
-        Location loc = averageLocation(event.getBlocks()).multiply(8);
+        Location loc = averageLocation(world, event.getBlocks()).multiply(8);
         loc.setWorld(destination);
         if (destination != null && !destination.getWorldBorder().isInside(loc)) {
             event.setCancelled(true);
         }
     }
 
-    private static Location averageLocation(List<BlockState> blocks) {
+    private static Location averageLocation(World world, List<BlockState> blocks) {
         return new Location(
-                blocks.get(0).getWorld(),
+                world,
                 averageCoordinate(blocks, BlockState::getX),
                 0,
                 averageCoordinate(blocks, BlockState::getZ)
