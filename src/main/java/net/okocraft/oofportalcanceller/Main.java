@@ -2,6 +2,8 @@ package net.okocraft.oofportalcanceller;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
@@ -12,6 +14,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin implements Listener {
 
+    private static final Pattern NETHER_WORLD_NAME_PATTERN = Pattern.compile("(.+)_nether");
+
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
@@ -20,17 +24,23 @@ public class Main extends JavaPlugin implements Listener {
     @EventHandler(ignoreCancelled = true)
     private void onPortalCreate(PortalCreateEvent event) {
         World world = event.getWorld();
-        String worldName = world.getName();
-        if (world.getEnvironment() != World.Environment.NETHER
-                || event.getBlocks().isEmpty()
-                || !worldName.matches(".+_nether")) {
+        if (world.getEnvironment() != World.Environment.NETHER || event.getBlocks().isEmpty()) {
             return;
         }
 
-        World destination = getServer().getWorld(worldName.substring(0, worldName.length() - 7));
-        Location loc = averageLocation(world, event.getBlocks()).multiply(8);
-        loc.setWorld(destination);
-        if (destination != null && !destination.getWorldBorder().isInside(loc)) {
+        String worldName = world.getName();
+        Matcher matcher = NETHER_WORLD_NAME_PATTERN.matcher(worldName);
+        if (!matcher.matches()) {
+            return;
+        }
+
+        World destination = getServer().getWorld(matcher.group(1));
+        if (destination == null) {
+            return;
+        }
+
+        Location loc = averageLocation(destination, event.getBlocks()).multiply(8);
+        if (!destination.getWorldBorder().isInside(loc)) {
             event.setCancelled(true);
         }
     }
