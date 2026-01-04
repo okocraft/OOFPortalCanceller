@@ -21,5 +21,5 @@ jcommon {
 
 bundler {
     copyToRootBuildDirectory("OOFPortalCanceller-${project.version}")
-    replacePluginVersionForPaper(project.version, apiVersion)
+    replacePluginVersionForBukkit(project.version, apiVersion)
 }
