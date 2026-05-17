@@ -10,7 +10,7 @@ version = "1.0.0"
 val apiVersion = "1.19"
 
 jcommon {
-    javaVersion = JavaVersion.VERSION_21
+    javaVersion = JavaVersion.VERSION_25
 
     setupPaperRepository()
 
