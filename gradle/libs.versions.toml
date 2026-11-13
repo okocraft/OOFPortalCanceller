@@ -1,6 +1,6 @@
 [versions]
 
-paper = "26.3.build.244-stable"
+paper = "26.3.build.246-stable"
 
 gradle-plugins = "1.9.0"
 
